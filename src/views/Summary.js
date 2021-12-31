@@ -37,13 +37,34 @@ import {
 } from "variables/charts.js";
 import {SummaryCard} from "../components/Summary/SummaryCard";
 import RangeDatePicker from "../components/common/RangeDatePicker";
+import API from "../network/api/API";
 
 export const Summary = () => {
 
     useEffect(() => {
         //HIt API to fetch data;
         console.log('ASHISH fetching API');
+        let body  = {
+            "startDate": "2021-12-09 10:00:34.228Z",
+            "endDate": "2021-12-09 10:00:35.228Z"
+        }
+
+        let headers = {
+            'Access-Control-Allow-Origin': 'http://172.16.82.127:8025'
+        }
+        API.post('resellers/loyaltyTransactions',
+            {
+            "startDate": "2021-12-09 10:00:34.228Z",
+            "endDate": "2021-12-09 10:00:35.228Z"
+        } ,
+            {headers})
+            .then(response => {
+                console.log('ASHISH response is ', response);
+            })
+
+
     }, []);
+
 
     return (
         <>
