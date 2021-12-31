@@ -41,7 +41,7 @@ import RangeDatePicker from "../components/common/RangeDatePicker";
 export const Summary = () => {
 
     useEffect(() => {
-    //HIt API to fetch data;
+        //HIt API to fetch data;
         console.log('ASHISH fetching API');
     }, []);
 
