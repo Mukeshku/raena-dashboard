@@ -38,9 +38,9 @@ export const SummaryCard = (props) => {
         plotOptions: {
             line: {
                 dataLabels: {
-                    enabled: true
+                    enabled: false
                 },
-                enableMouseTracking: false
+                enableMouseTracking: true
             }
         },
         series: data.seriesData
