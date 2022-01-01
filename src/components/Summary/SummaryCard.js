@@ -14,6 +14,11 @@ export const SummaryCard = (props) => {
     //Add exporting module.
     //This will aad export feature.
     if (typeof Highcharts === 'object') {
+        Highcharts.setOptions({
+            lang: {
+                numericSymbols: [' Th', ' M', ' B', ' T']
+            }
+        });
         HighchartsExporting(Highcharts)
         ExportData(Highcharts);
     }
@@ -41,6 +46,11 @@ export const SummaryCard = (props) => {
                     enabled: false
                 },
                 enableMouseTracking: true
+            },
+            series: {
+                marker: {
+                    enabled: true
+                }
             }
         },
         series: data.seriesData
@@ -67,7 +77,7 @@ export const SummaryCard = (props) => {
                 {
                     !success &&  !isLoading && errorMessage &&
                         <div>
-                            erroor {errorMessage}
+                            {errorMessage}
                         </div>
                 }
 

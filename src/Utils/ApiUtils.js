@@ -26,9 +26,9 @@ const getYAxisText = (endPoint) => {
         case  ENDPOINT_LOYALTY_TRANSACTIONS:
             return 'Points'
         case   ENDPOINT_RESELLERS:
-            return 'Reseller count'
+            return 'Reseller Count'
         case  ENDPOINT_ORDERS:
-            return 'Order count'
+            return 'Order Count'
         case ENDPOINT_REVENUE:
             return 'Amount'
         default:
