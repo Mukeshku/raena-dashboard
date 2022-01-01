@@ -56,11 +56,11 @@ function Sidebar(props) {
           href="https://www.creative-tim.com"
           className="simple-text logo-mini"
         >
-          <div className="logo-img">
-            <img src={logo} alt="react-logo" />
+          <div className="nc-icon nc-sound-wave">
+
           </div>
         </a>
-        <a className="simple-text logo-normal">Raena Dashboard</a>
+        <a className="simple-text">Raena Dashboard</a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>

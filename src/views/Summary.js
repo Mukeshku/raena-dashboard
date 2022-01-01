@@ -16,7 +16,7 @@ import {getDifferenceInDays} from "../Utils/DateUtils";
 export const Summary = () => {
     //Initialize date.
     const MAX_DATE_DIFF = 30
-    const initialStartDate = new Date(new Date().setDate(new Date().getDate()  - MAX_DATE_DIFF));
+    const initialStartDate = new Date(new Date().setDate(new Date().getDate() - MAX_DATE_DIFF));
     const initialEndDate = new Date();
 
     const [pointsData, setPointsData] = useState({})
@@ -44,26 +44,27 @@ export const Summary = () => {
             }
         }
 
-
         SUMMARY_PAGE_END_POINTS.forEach(endPoint => {
             getLoyaltyTransactionData(startDate, endDate, endPoint).then(response => {
-                const {success} = response || {}
-                if (success) {
-                    setData(response, endPoint);
-                }
+                setData(response, endPoint);
             })
         })
     }, [startDate, endDate]);
 
-    const onDateChange = ({startDate, endDate}) => {
-        if (endDate && startDate){
-            const diffInDays = getDifferenceInDays(startDate, endDate);
-            console.log(startDate.toISOString());
-            console.log(endDate.toISOString());
+    function resetData() {
+        setRevenueData({});
+        setResellersData({});
+        setOrdersData({});
+        setPointsData({})
+    }
 
-            if (diffInDays > 0){
+    const onDateChange = ({startDate, endDate}) => {
+        if (endDate && startDate) {
+            const diffInDays = getDifferenceInDays(startDate, endDate);
+            if (diffInDays > 0) {
                 setStartDate(startDate.toISOString());
                 setEndDate(endDate.toISOString());
+                resetData();
             }
         }
     }
@@ -77,19 +78,36 @@ export const Summary = () => {
                 <span>&nbsp;&nbsp;</span>
                 <Row>
                     <Col md="6">
-                        <SummaryCard data={pointsData} title={'Points Generated'} subtitle={''}/>
+                        <SummaryCard
+                            data={pointsData}
+                            title={'Points Generated'}
+                            subtitle={''}
+                            isLoading={Object.keys(pointsData).length === 0}/>
                     </Col>
                     <Col md="6">
-                        <SummaryCard data={revenueData} title={'Revenue'} subtitle={''}/>
+                        <SummaryCard data={revenueData}
+                                     title={'Revenue'}
+                                     subtitle={''}
+                                     isLoading={Object.keys(revenueData).length === 0}/>
                     </Col>
                 </Row>
 
                 <Row>
                     <Col md="6">
-                        <SummaryCard data={ordersData} title={'Orders'} subtitle={''}/>
+                        <SummaryCard
+                            data={ordersData}
+                            title={'Orders'}
+                            subtitle={''}
+                            isLoading={Object.keys(ordersData).length === 0}
+                        />
                     </Col>
                     <Col md="6">
-                        <SummaryCard data={resellerData} title={'Transacting Users'} subtitle={''}/>
+                        <SummaryCard
+                            data={resellerData}
+                            title={'Transacting Users'}
+                            subtitle={''}
+                            isLoading={Object.keys(resellerData).length === 0}
+                        />
                     </Col>
                 </Row>
             </div>
