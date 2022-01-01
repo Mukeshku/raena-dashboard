@@ -11,13 +11,14 @@ import "../../assets/css/range-date-picker.css";
 
 class RangeDatePicker extends React.Component {
     DATE_FORMAT = 'dd-MM-yyyy';
+
     constructor(props) {
         super(props);
 
         this.state = {
-            startDate: undefined,
-            endDate: undefined,
-            onDateChange : props.onDateChange
+            startDate: props.startDate,
+            endDate: props.endDate,
+            onDateChange: props.onDateChange
         };
 
 
@@ -60,33 +61,28 @@ class RangeDatePicker extends React.Component {
         const classes = classNames(className, "d-flex", "my-auto", "date-range");
 
         return (
-            <InputGroup className={classes}>
+            <div>
                 <DatePicker
                     size="sm"
                     selected={this.state.startDate}
                     onChange={this.handleStartDateChange}
-                    placeholderText="Start Date"
                     dropdownMode="select"
                     className="text-center"
                     dateFormat={this.DATE_FORMAT}
+                    maxDate={new Date()}
                 />
+                <span>&nbsp;&nbsp;</span>
                 <span>&nbsp;&nbsp;</span>
                 <DatePicker
                     size="sm"
                     selected={this.state.endDate}
                     onChange={this.handleEndDateChange}
-                    placeholderText="End Date"
                     dropdownMode="select"
                     className="text-center"
                     dateFormat={this.DATE_FORMAT}
+                    maxDate={new Date()}
                 />
-                <span>&nbsp;&nbsp;</span>
-                <InputGroupAddon type="append">
-                    <InputGroupText>
-                        <i className="material-icons">&#xE916;</i>
-                    </InputGroupText>
-                </InputGroupAddon>
-            </InputGroup>
+            </div>
         );
     }
 }

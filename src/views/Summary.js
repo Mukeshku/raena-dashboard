@@ -14,12 +14,17 @@ import {
 import {getDifferenceInDays} from "../Utils/DateUtils";
 
 export const Summary = () => {
+    //Initialize date.
+    const MAX_DATE_DIFF = 30
+    const initialStartDate = new Date(new Date().setDate(new Date().getDate()  - MAX_DATE_DIFF));
+    const initialEndDate = new Date();
+
     const [pointsData, setPointsData] = useState({})
     const [revenueData, setRevenueData] = useState({})
     const [ordersData, setOrdersData] = useState({})
     const [resellerData, setResellersData] = useState({})
-    const [startDate, setStartDate] = useState('2021-12-09 10:00:34.228Z');
-    const [endDate, setEndDate] = useState('2021-12-29 10:00:35.228Z');
+    const [startDate, setStartDate] = useState(initialStartDate);
+    const [endDate, setEndDate] = useState(initialEndDate);
 
     useEffect(() => {
         function setData(response, endPoint) {
@@ -67,7 +72,7 @@ export const Summary = () => {
         <>
             <div className="content">
 
-                <RangeDatePicker onDateChange={onDateChange} />
+                <RangeDatePicker onDateChange={onDateChange} startDate={startDate} endDate={endDate}/>
 
                 <span>&nbsp;&nbsp;</span>
                 <Row>
