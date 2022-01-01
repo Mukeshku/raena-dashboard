@@ -1,73 +1,94 @@
 import React from "react";
 import classNames from "classnames";
 import {
-  InputGroup,
-  DatePicker,
-  InputGroupAddon,
-  InputGroupText
+    InputGroup,
+    DatePicker,
+    InputGroupAddon,
+    InputGroupText
 } from "shards-react";
 
 import "../../assets/css/range-date-picker.css";
 
 class RangeDatePicker extends React.Component {
-  constructor(props) {
-    super(props);
+    DATE_FORMAT = 'dd-MM-yyyy';
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      startDate: undefined,
-      endDate: undefined
-    };
+        this.state = {
+            startDate: undefined,
+            endDate: undefined,
+            onDateChange : props.onDateChange
+        };
 
-    this.handleStartDateChange = this.handleStartDateChange.bind(this);
-    this.handleEndDateChange = this.handleEndDateChange.bind(this);
-  }
 
-  handleStartDateChange(value) {
-    this.setState({
-      ...this.state,
-      ...{ startDate: new Date(value) }
-    });
-  }
+        this.handleStartDateChange = this.handleStartDateChange.bind(this);
+        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    }
 
-  handleEndDateChange(value) {
-    this.setState({
-      ...this.state,
-      ...{ endDate: new Date(value) }
-    });
-  }
+    sendCallback(startDate, endDate) {
+        if (this.state.onDateChange) {
+            this.state.onDateChange(startDate, endDate);
+        }
+    }
 
-  render() {
-    const { className } = this.props;
-    const classes = classNames(className, "d-flex", "my-auto", "date-range");
+    handleStartDateChange(value) {
+        const startDate = new Date(value);
+        const endDate = this.state.endDate;
+        this.setState({
+            ...this.state,
+            ...{startDate}
+        });
 
-    return (
-      <InputGroup className={classes}>
-        <DatePicker
-          size="sm"
-          selected={this.state.startDate}
-          onChange={this.handleStartDateChange}
-          placeholderText="Start Date"
-          dropdownMode="select"
-          className="text-center"
-        />
-        <span>&nbsp;&nbsp;</span>
-        <DatePicker
-          size="sm"
-          selected={this.state.endDate}
-          onChange={this.handleEndDateChange}
-          placeholderText="End Date"
-          dropdownMode="select"
-          className="text-center"
-        />
-        <span>&nbsp;&nbsp;</span>
-        <InputGroupAddon type="append">
-          <InputGroupText>
-            <i className="material-icons">&#xE916;</i>
-          </InputGroupText>
-        </InputGroupAddon>
-      </InputGroup>
-    );
-  }
+        //send callback if required.
+        this.sendCallback({startDate, endDate});
+    }
+
+    handleEndDateChange(value) {
+        const endDate = new Date(value);
+        const startDate = this.state.startDate;
+        this.setState({
+            ...this.state,
+            ...{endDate}
+        });
+
+        //send callback if required.
+        this.sendCallback({startDate, endDate});
+    }
+
+    render() {
+        const {className} = this.props;
+        const classes = classNames(className, "d-flex", "my-auto", "date-range");
+
+        return (
+            <InputGroup className={classes}>
+                <DatePicker
+                    size="sm"
+                    selected={this.state.startDate}
+                    onChange={this.handleStartDateChange}
+                    placeholderText="Start Date"
+                    dropdownMode="select"
+                    className="text-center"
+                    dateFormat={this.DATE_FORMAT}
+                />
+                <span>&nbsp;&nbsp;</span>
+                <DatePicker
+                    size="sm"
+                    selected={this.state.endDate}
+                    onChange={this.handleEndDateChange}
+                    placeholderText="End Date"
+                    dropdownMode="select"
+                    className="text-center"
+                    dateFormat={this.DATE_FORMAT}
+                />
+                <span>&nbsp;&nbsp;</span>
+                <InputGroupAddon type="append">
+                    <InputGroupText>
+                        <i className="material-icons">&#xE916;</i>
+                    </InputGroupText>
+                </InputGroupAddon>
+            </InputGroup>
+        );
+    }
 }
 
 export default RangeDatePicker;

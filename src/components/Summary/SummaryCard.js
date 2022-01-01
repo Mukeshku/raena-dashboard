@@ -1,8 +1,5 @@
-import {Card, CardBody, CardFooter, CardHeader, CardTitle} from "reactstrap";
-import {dashboardNASDAQChart} from "../../variables/charts";
-import {Line} from "react-chartjs-2";
+import {Card, CardBody, CardFooter} from "reactstrap";
 import React from 'react'
-import { render } from 'react-dom'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import HighchartsExporting from 'highcharts/modules/exporting'
@@ -44,7 +41,7 @@ export const SummaryCard = (props) =>{
                 enableMouseTracking: false
             }
         },
-        series: data.seriesdata
+        series: data.seriesData
     }
 
     return (
