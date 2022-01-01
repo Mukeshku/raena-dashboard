@@ -1,6 +1,7 @@
 import axios from "axios";
+import * as Constants from "../../constants";
 
 export default axios.create({
-    baseURL: "http://localhost:8025/api/",
+    baseURL: Constants.BASE_URL,
     responseType: "json"
 });

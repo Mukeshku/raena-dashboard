@@ -1,36 +1,21 @@
 import React, {useEffect, useState} from "react";
-// react plugin used to create charts
-import {Line, Pie} from "react-chartjs-2";
-// reactstrap components
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    CardTitle,
-    Row,
-    Col,
-} from "reactstrap";
-// core components
-import {
-    dashboard24HoursPerformanceChart,
-    dashboardEmailStatisticsChart,
-    dashboardNASDAQChart,
-} from "variables/charts.js";
+import {Col, Row,} from "reactstrap";
 import {SummaryCard} from "../components/Summary/SummaryCard";
 import RangeDatePicker from "../components/common/RangeDatePicker";
 import API from "../network/api/API";
+import {getDataForDisplay} from "../Utils/SummaryUtils";
 
 export const Summary = () => {
-    const [pointsData,setPointsData] = useState({})
-    const [revenueData,setRevenueData] = useState({})
-    const [ordersData,setOrdersData] = useState({})
-    const [resellerData,setResellersData] = useState({})
-    //const [data,setData] = useState([])
+    const [pointsData, setPointsData] = useState({})
+    const [revenueData, setRevenueData] = useState({})
+    const [ordersData, setOrdersData] = useState({})
+    const [resellerData, setResellersData] = useState({})
+
     useEffect(() => {
+
         //HIt API to fetch data;
-        console.log('ASHISH fetching API');
-        let body  = {
+
+        let body = {
             "startDate": "2021-12-09 10:00:34.228Z",
             "endDate": "2021-12-29 10:00:35.228Z"
         }
@@ -40,85 +25,85 @@ export const Summary = () => {
         }
         API.post('resellers/loyaltyTransactions',
             {
-            "startDate": "2021-12-09 10:00:34.228Z",
-            "endDate": "2021-12-29 10:00:35.228Z"
-        } ,
+                "startDate": "2021-12-09 10:00:34.228Z",
+                "endDate": "2021-12-29 10:00:35.228Z"
+            },
             {headers})
             .then(response => {
                 console.log('points response  is ', response.data);
-                let { dateArray, seriesdata } = getDataForDisplay(response);
+                let {dateArray, seriesData} = getDataForDisplay(response);
                 setPointsData({
                         dateArray,
-                        seriesdata,
-                        yAxisText:"Points"
+                        seriesData,
+                        yAxisText: "Points"
                     }
                 )
             })
-            //  hitting revenve api
+        //  hitting revenve api
         API.post('resellers/revenue',
-        {
-           "startDate": "2021-12-09 10:00:34.228Z",
-           "endDate": "2021-12-29 10:00:35.228Z"
-        } ,
-        {headers})
-        .then(response => {
-            console.log('Revenve response  is ', response.data);
-            let { dateArray, seriesdata } = getDataForDisplay(response);
-            setRevenueData({
-                    dateArray,
-                    seriesdata,
-                    yAxisText:"Amount"
-                }
-            )
-        })
-             //  hitting orders api
-             API.post('resellers/orders',
-             {
+            {
                 "startDate": "2021-12-09 10:00:34.228Z",
                 "endDate": "2021-12-29 10:00:35.228Z"
-             } ,
-             {headers})
-             .then(response => {
-                 console.log('Ordrs response  is ', response.data);
-                 let { dateArray, seriesdata } = getDataForDisplay(response);
-                 setOrdersData({
-                         dateArray,
-                         seriesdata,
-                         yAxisText:"Order count"
-                     }
-                 )
-             })
-                  //  hitting reseller api
+            },
+            {headers})
+            .then(response => {
+                console.log('Revenve response  is ', response.data);
+                let {dateArray, seriesData} = getDataForDisplay(response);
+                setRevenueData({
+                        dateArray,
+                        seriesData,
+                        yAxisText: "Amount"
+                    }
+                )
+            })
+        //  hitting orders api
+        API.post('resellers/orders',
+            {
+                "startDate": "2021-12-09 10:00:34.228Z",
+                "endDate": "2021-12-29 10:00:35.228Z"
+            },
+            {headers})
+            .then(response => {
+                console.log('Ordrs response  is ', response.data);
+                let {dateArray, seriesData} = getDataForDisplay(response);
+                setOrdersData({
+                        dateArray,
+                        seriesData,
+                        yAxisText: "Order count"
+                    }
+                )
+            })
+        //  hitting reseller api
         API.post('resellers/resellers',
-        {
-           "startDate": "2021-12-09 10:00:34.228Z",
-           "endDate": "2021-12-29 10:00:35.228Z"
-        } ,
-        {headers})
-        .then(response => {
-            console.log('resellers response  is ', response.data);
-            let { dateArray, seriesdata } = getDataForDisplay(response);
-            setResellersData({
-                    dateArray,
-                    seriesdata,
-                    yAxisText:"Reseller count"
-                }
-            )
-        })
+            {
+                "startDate": "2021-12-09 10:00:34.228Z",
+                "endDate": "2021-12-29 10:00:35.228Z"
+            },
+            {headers})
+            .then(response => {
+                console.log('resellers response  is ', response.data);
+                let {dateArray, seriesdata} = getDataForDisplay(response);
+                setResellersData({
+                        dateArray,
+                        seriesdata,
+                        yAxisText: "Reseller count"
+                    }
+                )
+            })
     }, []);
 
 
     return (
         <>
             <div className="content">
-                <RangeDatePicker />
+                <RangeDatePicker/>
                 <span>&nbsp;&nbsp;</span>
                 <Row>
                     <Col md="6">
-                        <SummaryCard data={pointsData}  title={'Points Generated'} subtitle={''}/>
+                        <SummaryCard data={pointsData} title={'Points Generated'} subtitle={''}/>
                     </Col>
                     <Col md="6">
-                        <SummaryCard data={revenueData}  title={'Revenue'} subtitle={''}/>
+                        <SummaryCard data={revenueData} title={'Revenue'} subtitle={''}/>
                     </Col>
                 </Row>
 
@@ -136,41 +121,4 @@ export const Summary = () => {
 }
 
 export default Summary;
-function getDataForDisplay(response) {
-    let dateArray = [];
-    let goldArray = [];
-    let silverArray = [];
-    let bronzeArray = [];
-    let i = 0;
-    let seriesdata = [];
-    response.data?.forEach(datapoint => {
-        if (datapoint._id && datapoint.tiers.length) {
-            dateArray[i] = datapoint._id;
-            let tierMap = new Map();
-            datapoint.tiers.forEach(tier => {
-                tierMap.set(tier.tierId, tier.total);
-            });
-            goldArray[i] = tierMap.get("bf645e97-8a48-4977-8367-e987489760f9") || 0;
-            silverArray[i] = tierMap.get("8eb95d6e-915a-4a91-9c12-fa43db995e19") || 0;
-            bronzeArray[i] = tierMap.get("07030fbe-5801-4318-9e97-fe33fa169894") || 0;
-            i++;
-
-        }
-    });
-    seriesdata = [
-        {
-            name: 'Gold',
-            data: goldArray
-        },
-        {
-            name: 'Silver',
-            data: silverArray
-        },
-        {
-            name: 'bronze',
-            data: bronzeArray
-        }
-    ];
-    return { dateArray, seriesdata };
-}
 
