@@ -8,6 +8,7 @@ import {
 } from "shards-react";
 
 import "../../assets/css/range-date-picker.css";
+import {Col, Row,} from "reactstrap";
 
 class RangeDatePicker extends React.Component {
     DATE_FORMAT = 'dd-MM-yyyy';
@@ -61,28 +62,33 @@ class RangeDatePicker extends React.Component {
         const classes = classNames(className, "d-flex", "my-auto", "date-range");
 
         return (
-            <div>
-                <DatePicker
-                    size="sm"
-                    selected={this.state.startDate}
-                    onChange={this.handleStartDateChange}
-                    dropdownMode="select"
-                    className="text-center"
-                    dateFormat={this.DATE_FORMAT}
-                    maxDate={new Date()}
-                />
-                <span>&nbsp;&nbsp;</span>
-                <span>&nbsp;&nbsp;</span>
-                <DatePicker
-                    size="sm"
-                    selected={this.state.endDate}
-                    onChange={this.handleEndDateChange}
-                    dropdownMode="select"
-                    className="text-center"
-                    dateFormat={this.DATE_FORMAT}
-                    maxDate={new Date()}
-                />
-            </div>
+            <Row>
+                <Col md="3">
+                    <span>Start Date &nbsp; </span>
+                    <DatePicker
+                        size="sm"
+                        selected={this.state.startDate}
+                        onChange={this.handleStartDateChange}
+                        dropdownMode="select"
+                        className="text-center"
+                        dateFormat={this.DATE_FORMAT}
+                        maxDate={new Date()}
+                    />
+
+                </Col>
+                <Col md="3">
+                    <span>End Date &nbsp; </span>
+                    <DatePicker
+                        size="sm"
+                        selected={this.state.endDate}
+                        onChange={this.handleEndDateChange}
+                        dropdownMode="select"
+                        className="text-center"
+                        dateFormat={this.DATE_FORMAT}
+                        maxDate={new Date()}
+                    />
+                </Col>
+            </Row>
         );
     }
 }
