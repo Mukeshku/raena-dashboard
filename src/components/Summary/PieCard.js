@@ -7,7 +7,7 @@ import ExportData from 'highcharts/modules/export-data'
 import Loader from "react-loader-spinner";
 
 
-export const SummaryCard = (props) => {
+export const PieCard = (props) => {
     const {data, title = '', subtitle = '', isLoading = true} = props || {}
     const {success, errorMessage} = data || {}
     //Add exporting module.
@@ -23,36 +23,66 @@ export const SummaryCard = (props) => {
     }
     const options = {
         chart: {
-            type: 'line'
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
         },
         title: {
-            text: title
+            text: 'Browser market shares in January, 2018'
         },
-        subtitle: {
-            text: subtitle
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
-        xAxis: {
-            categories: data.dateArray//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        yAxis: {
-            title: {
-                text: data.yAxisText
+        accessibility: {
+            point: {
+                valueSuffix: '%'
             }
         },
         plotOptions: {
-            line: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
                 dataLabels: {
-                    enabled: false
-                },
-                enableMouseTracking: true
-            },
-            series: {
-                marker: {
-                    enabled: true
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                 }
             }
         },
-        series: data.seriesData
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'Chrome',
+                y: 61.41,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Internet Explorer',
+                y: 11.84
+            }, {
+                name: 'Firefox',
+                y: 10.85
+            }, {
+                name: 'Edge',
+                y: 4.67
+            }, {
+                name: 'Safari',
+                y: 4.18
+            }, {
+                name: 'Sogou Explorer',
+                y: 1.64
+            }, {
+                name: 'Opera',
+                y: 1.6
+            }, {
+                name: 'QQ',
+                y: 1.2
+            }, {
+                name: 'Other',
+                y: 2.61
+            }]
+        }]
     }
 
     return (
@@ -87,32 +117,6 @@ export const SummaryCard = (props) => {
                 />
                 }
             </CardBody>
-            {/* <CardHeader>
-                <CardTitle tag="h5">{title}</CardTitle>
-                <p className="card-category">{subtitle}</p>
-            </CardHeader>
-            <CardBody>
-                <Line
-                    data={dashboardNASDAQChart.data}
-                    options={dashboardNASDAQChart.options}
-                    width={400}
-                    height={100}
-                />
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={options}
-                />
-            </CardBody>
-            <CardFooter>
-                <div className="chart-legend">
-                    <i className="fa fa-circle text-info" /> Tesla Model S{" "}
-                    <i className="fa fa-circle text-warning" /> BMW 5 Series
-                </div>
-                <hr />
-                <div className="card-stats">
-                    <i className="fa fa-check" /> Data information certified
-                </div>
-            </CardFooter>*/}
         </Card>
     )
 }

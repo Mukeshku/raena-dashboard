@@ -3,14 +3,14 @@ import * as Constants from '../constants'
 import {getDataForDisplay} from "./SummaryUtils";
 import {ENDPOINT_LOYALTY_TRANSACTIONS, ENDPOINT_ORDERS, ENDPOINT_RESELLERS, ENDPOINT_REVENUE} from "../constants";
 
-export const getLoyaltyTransactionData = async (startDate, endDate, endPoint) => {
-    let header = Constants.DEFAULT_HEADER
+let header = Constants.DEFAULT_HEADER;
+
+export const getLoyaltyTransactionData = async (startDate, endDate, endPoint, selectedResellerIds) => {
     let retVal;
     await API.post(endPoint,
-        {startDate, endDate},
+        {startDate, endDate, selectedResellerIds},
         {header})
         .then(response => {
-            console.log('points response  is ', response.data);
             let {dateArray, seriesData} = getDataForDisplay(response);
             const yAxisText = getYAxisText(endPoint);
             retVal = {dateArray, seriesData, yAxisText, success: 'true'}
@@ -34,4 +34,18 @@ const getYAxisText = (endPoint) => {
         default:
             return ''
     }
+}
+
+export const getMatchStringForReseller = async (inputString) => {
+    let retVal;
+    await API.get('/resellers/all/' + inputString,
+        {header})
+        .then(response => {
+            const {data} = response || {}
+            retVal = data;
+        })
+        .catch(error => {
+            retVal = {success: false, errorMessage: error.message}
+        })
+    return retVal;
 }

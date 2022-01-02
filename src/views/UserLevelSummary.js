@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {Col, Row,} from "reactstrap";
+import {Button, Col, Row,} from "reactstrap";
 import {SummaryCard} from "../components/Summary/SummaryCard";
 import RangeDatePicker from "../components/common/RangeDatePicker";
-import {getLoyaltyTransactionData} from "../Utils/ApiUtils";
+import {getLoyaltyTransactionData, getMatchStringForReseller} from "../Utils/ApiUtils";
 
 import {
     ENDPOINT_LOYALTY_TRANSACTIONS,
     ENDPOINT_ORDERS,
     ENDPOINT_RESELLERS,
-    ENDPOINT_REVENUE,
+    ENDPOINT_REVENUE, MIN_SEARCH_LENGTH_FOR_RESELLER,
     SUMMARY_PAGE_END_POINTS
 } from "../constants";
 import {getDifferenceInDays} from "../Utils/DateUtils";
+import AsyncMulti from "../components/MutiSelect/AsyncMulti";
+import {PieCard} from "../components/Summary/PieCard";
 
 export const Summary = () => {
     //Initialize date.
@@ -25,31 +27,37 @@ export const Summary = () => {
     const [resellerData, setResellersData] = useState({})
     const [startDate, setStartDate] = useState(initialStartDate);
     const [endDate, setEndDate] = useState(initialEndDate);
+    const [selectedResellerIds, setSelectedResellerIds] = useState([])
 
-    useEffect(() => {
-        function setData(response, endPoint) {
-            switch (endPoint) {
-                case  ENDPOINT_LOYALTY_TRANSACTIONS:
-                    setPointsData(response);
-                    break;
-                case   ENDPOINT_RESELLERS:
-                    setResellersData(response);
-                    break;
-                case  ENDPOINT_ORDERS:
-                    setOrdersData(response);
-                    break;
-                case ENDPOINT_REVENUE:
-                    setRevenueData(response);
-                    break;
-            }
+    const setData = (response, endPoint) => {
+        switch (endPoint) {
+            case  ENDPOINT_LOYALTY_TRANSACTIONS:
+                setPointsData(response);
+                break;
+            case   ENDPOINT_RESELLERS:
+                setResellersData(response);
+                break;
+            case  ENDPOINT_ORDERS:
+                setOrdersData(response);
+                break;
+            case ENDPOINT_REVENUE:
+                setRevenueData(response);
+                break;
         }
+    }
 
+    const getChartData = () => {
         SUMMARY_PAGE_END_POINTS.forEach(endPoint => {
-            getLoyaltyTransactionData(startDate, endDate, endPoint).then(response => {
+            getLoyaltyTransactionData(startDate, endDate, endPoint, selectedResellerIds).then(response => {
                 setData(response, endPoint);
             })
         })
-    }, [startDate, endDate]);
+    }
+
+    useEffect(() => {
+       getChartData();
+    }, []);
+
 
     function resetData() {
         setRevenueData({});
@@ -65,19 +73,53 @@ export const Summary = () => {
             if (diffInDays >= 0) {
                 setStartDate(startDate.toISOString());
                 setEndDate(endDate.toISOString());
-                resetData();
-            }else{
+            } else {
                 alert("end Date always greater than equal start Date")
             }
         }
     }
 
+    const hitApi = async (inputString) => {
+        return  await getMatchStringForReseller(inputString);
+    }
+
+    const onResellerItemChange = (selectedItems) => {
+        setSelectedResellerIds(selectedItems);
+    }
+
+    const onSubmitButtonClick = () => {
+        resetData();
+       getChartData();
+    }
+
     return (
         <>
             <div className="content">
-
-                <RangeDatePicker onDateChange={onDateChange} startDate={startDate} endDate={endDate}/>
-
+                <Row>
+                    <Col md="6">
+                        <RangeDatePicker onDateChange={onDateChange} startDate={startDate} endDate={endDate}/>
+                    </Col>
+                    <Col md="3">
+                        <span>&nbsp;Search a Reseller ID &nbsp; </span>
+                        <AsyncMulti
+                            hitApi={hitApi}
+                            minSearchTextLength={MIN_SEARCH_LENGTH_FOR_RESELLER}
+                            onItemChange={onResellerItemChange}
+                        />
+                    </Col>
+                    <Col md="3">
+                            <Button
+                                onClick={onSubmitButtonClick}
+                                color="primary">SUBMIT</Button>
+                    </Col>
+                </Row>
+                <hr
+                    style={{
+                        color:'rgba(0,0,0,0.02)',
+                        backgroundColor: 'rgba(0,0,0,0.03)',
+                        height: 1
+                    }}
+                />
                 <span>&nbsp;&nbsp;</span>
                 <Row>
                     <Col md="6">
@@ -93,6 +135,7 @@ export const Summary = () => {
                                      subtitle={''}
                                      isLoading={Object.keys(revenueData).length === 0}/>
                     </Col>
+
                 </Row>
 
                 <Row>
@@ -105,7 +148,7 @@ export const Summary = () => {
                         />
                     </Col>
                     <Col md="6">
-                        <SummaryCard
+                        <PieCard
                             data={resellerData}
                             title={'Transacting Users'}
                             subtitle={''}

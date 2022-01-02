@@ -38,7 +38,7 @@ var routes = [
     component: Icons,
     layout: "/admin",
   },*/
-  /*  {
+   /* {
      path: "/maps",
      name: "Maps",
      icon: "nc-icon nc-pin-3",

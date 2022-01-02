@@ -63,7 +63,7 @@ class RangeDatePicker extends React.Component {
 
         return (
             <Row>
-                <Col md="3">
+                <Col md="6">
                     <span>Start Date &nbsp; </span>
                     <DatePicker
                         size="sm"
@@ -76,7 +76,7 @@ class RangeDatePicker extends React.Component {
                     />
 
                 </Col>
-                <Col md="3">
+                <Col md="6">
                     <span>End Date &nbsp; </span>
                     <DatePicker
                         size="sm"

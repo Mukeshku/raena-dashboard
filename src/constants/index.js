@@ -6,6 +6,7 @@ export const ENDPOINT_LOYALTY_TRANSACTIONS = 'resellers/loyaltyTransactions';
 export const ENDPOINT_RESELLERS = 'resellers/resellers';
 export const ENDPOINT_ORDERS = 'resellers/orders';
 export const ENDPOINT_REVENUE = 'resellers/revenue';
+export const MIN_SEARCH_LENGTH_FOR_RESELLER = 3;
 
 export const SUMMARY_PAGE_END_POINTS = [
     ENDPOINT_LOYALTY_TRANSACTIONS,

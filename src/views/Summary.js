@@ -45,7 +45,7 @@ export const Summary = () => {
         }
 
         SUMMARY_PAGE_END_POINTS.forEach(endPoint => {
-            getLoyaltyTransactionData(startDate, endDate, endPoint).then(response => {
+            getLoyaltyTransactionData(startDate, endDate, endPoint, []).then(response => {
                 setData(response, endPoint);
             })
         })
