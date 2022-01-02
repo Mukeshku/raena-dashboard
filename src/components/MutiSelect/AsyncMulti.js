@@ -39,7 +39,7 @@ const AsyncMulti = ({hitApi, minSearchTextLength, onItemChange}) => {
 
     const handleOnChange = (items) => {
         const selectedItems = items.map(item => item.value)
-       onItemChange(selectedItems);
+        onItemChange(selectedItems);
     };
 
     return (
@@ -47,6 +47,7 @@ const AsyncMulti = ({hitApi, minSearchTextLength, onItemChange}) => {
             isMulti
             cacheOptions
             defaultOptions
+            placeholder={'Min ' + MIN_SEARCH_TEXT_THRESHOLD + ' char required to search'}
             onChange={handleOnChange}
             loadOptions={promiseOptions}
         />
