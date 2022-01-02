@@ -61,10 +61,13 @@ export const Summary = () => {
     const onDateChange = ({startDate, endDate}) => {
         if (endDate && startDate) {
             const diffInDays = getDifferenceInDays(startDate, endDate);
-            if (diffInDays > 0) {
+
+            if (diffInDays >= 0) {
                 setStartDate(startDate.toISOString());
                 setEndDate(endDate.toISOString());
                 resetData();
+            }else{
+                alert("end Date always greater than equal start Date")
             }
         }
     }
