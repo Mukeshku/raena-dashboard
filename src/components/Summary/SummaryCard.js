@@ -15,7 +15,7 @@ export const SummaryCard = (props) => {
     if (typeof Highcharts === 'object') {
         Highcharts.setOptions({
             lang: {
-                numericSymbols: [' Th', ' M', ' B', ' T']
+                numericSymbols: [' K', ' M', ' B', ' T']
             }
         });
         HighchartsExporting(Highcharts)
@@ -26,7 +26,7 @@ export const SummaryCard = (props) => {
             type: 'line'
         },
         title: {
-            text: title
+            text: title.toUpperCase()
         },
         subtitle: {
             text: subtitle

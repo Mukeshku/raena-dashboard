@@ -7,7 +7,7 @@ import ExportData from 'highcharts/modules/export-data'
 import Loader from "react-loader-spinner";
 
 
-export const PieCard = (props) => {
+export const BarCard = (props) => {
     const {data, title = '', subtitle = '', isLoading = true} = props || {}
     const {categories, brandCounts, yAxisText} = data || {}
     const {success, errorMessage} = data || {}
@@ -27,7 +27,7 @@ export const PieCard = (props) => {
             type: 'column'
         },
         title: {
-            text: title
+            text: title.toUpperCase()
         },
         subtitle: {
             text: subtitle

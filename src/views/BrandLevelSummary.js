@@ -13,7 +13,7 @@ import {
 } from "../constants";
 import {getDifferenceInDays} from "../Utils/DateUtils";
 import AsyncMulti from "../components/MutiSelect/AsyncMulti";
-import {PieCard} from "../components/Summary/PieCard";
+import {BarCard} from "../components/Summary/BarCard";
 
 export const Brand = () => {
   //Initialize date.
@@ -148,7 +148,7 @@ export const Brand = () => {
               />
             </Col>
             <Col md="6">
-              <PieCard
+              <BarCard
                   data={resellerData}
                   title={'Transacting Users'}
                   subtitle={''}
