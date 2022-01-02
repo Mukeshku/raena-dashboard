@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'http://172.16.83.7:9121/api/',
+    baseURL: 'http://172.16.82.215:9122/api/',
     responseType: "json"
 });

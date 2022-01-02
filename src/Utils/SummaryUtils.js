@@ -37,3 +37,16 @@ export const getDataForDisplay = (response) => {
     ];
     return {dateArray, seriesData};
 }
+
+export const getBrandDataForDisplay = (response) => {
+    const {data:responseData} = response || []
+    let categories = [];
+    let brandCounts = [];
+    responseData.forEach(item => {
+        const {brandId, count} = item || {}
+        categories.push(brandId);
+        brandCounts.push(count);
+    })
+
+    return {categories, brandCounts};
+}

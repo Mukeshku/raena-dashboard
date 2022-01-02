@@ -9,6 +9,7 @@ import Loader from "react-loader-spinner";
 
 export const PieCard = (props) => {
     const {data, title = '', subtitle = '', isLoading = true} = props || {}
+    const {categories, brandCounts, yAxisText} = data || {}
     const {success, errorMessage} = data || {}
     //Add exporting module.
     //This will aad export feature.
@@ -23,65 +24,42 @@ export const PieCard = (props) => {
     }
     const options = {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
+            type: 'column'
         },
         title: {
-            text: 'Browser market shares in January, 2018'
+            text: title
         },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        subtitle: {
+            text: subtitle
         },
-        accessibility: {
-            point: {
-                valueSuffix: '%'
+        xAxis: {
+            categories,
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: yAxisText
             }
         },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">Count:&nbsp;</td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
         plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                }
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
             }
         },
         series: [{
             name: 'Brands',
-            colorByPoint: true,
-            data: [{
-                name: 'Chrome',
-                y: 61.41,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Internet Explorer',
-                y: 11.84
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 4.67
-            }, {
-                name: 'Safari',
-                y: 4.18
-            }, {
-                name: 'Sogou Explorer',
-                y: 1.64
-            }, {
-                name: 'Opera',
-                y: 1.6
-            }, {
-                name: 'QQ',
-                y: 1.2
-            }, {
-                name: 'Other',
-                y: 2.61
-            }]
+            data: brandCounts
+
         }]
     }
 
@@ -104,10 +82,10 @@ export const PieCard = (props) => {
                 }
 
                 {
-                    !success &&  !isLoading && errorMessage &&
-                        <div>
-                            {errorMessage}
-                        </div>
+                    !success && !isLoading && errorMessage &&
+                    <div>
+                        {errorMessage}
+                    </div>
                 }
 
                 {!isLoading && success &&

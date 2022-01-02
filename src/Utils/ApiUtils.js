@@ -1,7 +1,13 @@
 import API from "../network/api/API";
 import * as Constants from '../constants'
-import {getDataForDisplay} from "./SummaryUtils";
-import {ENDPOINT_LOYALTY_TRANSACTIONS, ENDPOINT_ORDERS, ENDPOINT_RESELLERS, ENDPOINT_REVENUE} from "../constants";
+import {getBrandDataForDisplay, getDataForDisplay} from "./SummaryUtils";
+import {
+    ENDPOINT_BRAND_DATA,
+    ENDPOINT_LOYALTY_TRANSACTIONS,
+    ENDPOINT_ORDERS,
+    ENDPOINT_RESELLERS,
+    ENDPOINT_REVENUE
+} from "../constants";
 
 let header = Constants.DEFAULT_HEADER;
 
@@ -11,13 +17,24 @@ export const getLoyaltyTransactionData = async (startDate, endDate, endPoint, se
         {startDate, endDate, selectedResellerIds},
         {header})
         .then(response => {
-            let {dateArray, seriesData} = getDataForDisplay(response);
-            const yAxisText = getYAxisText(endPoint);
-            retVal = {dateArray, seriesData, yAxisText, success: 'true'}
+            retVal = parseResponse(response, endPoint)
         })
         .catch(error => {
             retVal = {success: false, errorMessage: error.message}
         })
+    return retVal;
+}
+
+const parseResponse = (response, endPoint) => {
+    let retVal;
+    const yAxisText = getYAxisText(endPoint);
+    if (endPoint === ENDPOINT_BRAND_DATA) {
+        let {categories, brandCounts} = getBrandDataForDisplay(response);
+        retVal = {categories, brandCounts, yAxisText, success: 'true'}
+    } else {
+        let {dateArray, seriesData} = getDataForDisplay(response);
+        retVal = {dateArray, seriesData, yAxisText, success: 'true'}
+    }
     return retVal;
 }
 
@@ -31,6 +48,8 @@ const getYAxisText = (endPoint) => {
             return 'Order Count'
         case ENDPOINT_REVENUE:
             return 'Amount'
+        case ENDPOINT_BRAND_DATA:
+            return 'Brands Counts'
         default:
             return ''
     }
