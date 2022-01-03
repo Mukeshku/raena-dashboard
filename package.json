@@ -1,8 +1,8 @@
 {
-  "name": "paper-dashboard-react",
+  "name": "raena-dashboard",
   "version": "1.3.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
+  "homepage": ".",
   "dependencies": {
     "axios": "^0.24.0",
     "bootstrap": "4.6.0",
