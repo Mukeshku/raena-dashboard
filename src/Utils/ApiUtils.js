@@ -49,7 +49,7 @@ const getYAxisText = (endPoint) => {
         case ENDPOINT_REVENUE:
             return 'Amount'
         case ENDPOINT_BRAND_DATA:
-            return 'Brands Counts'
+            return 'Brands Amount'
         default:
             return ''
     }
