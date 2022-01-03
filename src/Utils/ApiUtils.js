@@ -11,10 +11,10 @@ import {
 
 let header = Constants.DEFAULT_HEADER;
 
-export const getLoyaltyTransactionData = async (startDate, endDate, endPoint, selectedResellerIds) => {
+export const getLoyaltyTransactionData = async (startDate, endDate, endPoint, selectedResellerIds, selectedBrandIds) => {
     let retVal;
     await API.post(endPoint,
-        {startDate, endDate, selectedResellerIds},
+        {startDate, endDate, selectedResellerIds, selectedBrandIds},
         {header})
         .then(response => {
             retVal = parseResponse(response, endPoint)
@@ -55,9 +55,9 @@ const getYAxisText = (endPoint) => {
     }
 }
 
-export const getMatchStringForReseller = async (inputString) => {
+async function getFilterData(endPoint) {
     let retVal;
-    await API.get('/resellers/all/' + inputString,
+    await API.get(endPoint,
         {header})
         .then(response => {
             const {data} = response || {}
@@ -67,4 +67,12 @@ export const getMatchStringForReseller = async (inputString) => {
             retVal = {success: false, errorMessage: error.message}
         })
     return retVal;
+}
+
+export const getMatchStringForReseller = async (inputString) => {
+    return await getFilterData('/resellers/all/' + inputString);
+}
+
+export const getMatchStringForBrands = async (inputString) => {
+    return await getFilterData('/lookup/all/' + inputString);
 }

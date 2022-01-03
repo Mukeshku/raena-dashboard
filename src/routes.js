@@ -17,12 +17,12 @@ var routes = [
     component: UserLevelSummary,
     layout: "/admin",
   },
-  /*{
+  {
     path: "/brand/summary",
     name: "Brands",
     icon: "nc-icon nc-bold",
     component: BrandLevelSummary,
     layout: "/admin",
-  },*/
+  },
 ];
 export default routes;

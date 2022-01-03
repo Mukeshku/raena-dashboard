@@ -2,14 +2,15 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Row,} from "reactstrap";
 import {SummaryCard} from "../components/Summary/SummaryCard";
 import RangeDatePicker from "../components/common/RangeDatePicker";
-import {getLoyaltyTransactionData, getMatchStringForReseller} from "../Utils/ApiUtils";
+import {getLoyaltyTransactionData, getMatchStringForBrands, getMatchStringForReseller} from "../Utils/ApiUtils";
 
 import {
+  ENDPOINT_BRAND_DATA,
   ENDPOINT_LOYALTY_TRANSACTIONS,
   ENDPOINT_ORDERS,
-  ENDPOINT_RESELLERS,
-  ENDPOINT_REVENUE, MIN_SEARCH_LENGTH_FOR_RESELLER,
-  SUMMARY_PAGE_END_POINTS
+  ENDPOINT_REVENUE,
+  MIN_SEARCH_LENGTH_FOR_RESELLER,
+  USERS_PAGE_END_POINTS
 } from "../constants";
 import {getDifferenceInDays} from "../Utils/DateUtils";
 import AsyncMulti from "../components/MutiSelect/AsyncMulti";
@@ -24,18 +25,18 @@ export const Brand = () => {
   const [pointsData, setPointsData] = useState({})
   const [revenueData, setRevenueData] = useState({})
   const [ordersData, setOrdersData] = useState({})
-  const [resellerData, setResellersData] = useState({})
+  const [brandData, setBrandData] = useState({})
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
-  const [selectedResellerIds, setSelectedResellerIds] = useState([])
+  const [selectedBrandIds, setSelectedBrandIds] = useState([])
 
   const setData = (response, endPoint) => {
     switch (endPoint) {
       case  ENDPOINT_LOYALTY_TRANSACTIONS:
         setPointsData(response);
         break;
-      case   ENDPOINT_RESELLERS:
-        setResellersData(response);
+      case   ENDPOINT_BRAND_DATA:
+        setBrandData(response);
         break;
       case  ENDPOINT_ORDERS:
         setOrdersData(response);
@@ -47,8 +48,8 @@ export const Brand = () => {
   }
 
   const getChartData = () => {
-    SUMMARY_PAGE_END_POINTS.forEach(endPoint => {
-      getLoyaltyTransactionData(startDate, endDate, endPoint, selectedResellerIds).then(response => {
+    USERS_PAGE_END_POINTS.forEach(endPoint => {
+      getLoyaltyTransactionData(startDate, endDate, endPoint, null, selectedBrandIds).then(response => {
         setData(response, endPoint);
       })
     })
@@ -61,7 +62,7 @@ export const Brand = () => {
 
   function resetData() {
     setRevenueData({});
-    setResellersData({});
+    setBrandData({});
     setOrdersData({});
     setPointsData({})
   }
@@ -74,17 +75,17 @@ export const Brand = () => {
         setStartDate(startDate.toISOString());
         setEndDate(endDate.toISOString());
       } else {
-        alert("end Date always greater than equal start Date")
+        alert("end Date always greater than equal start Date");
       }
     }
   }
 
   const hitApi = async (inputString) => {
-    return  await getMatchStringForReseller(inputString);
+    return await getMatchStringForBrands(inputString);
   }
 
   const onResellerItemChange = (selectedItems) => {
-    setSelectedResellerIds(selectedItems);
+    setSelectedBrandIds(selectedItems);
   }
 
   const onSubmitButtonClick = () => {
@@ -100,7 +101,7 @@ export const Brand = () => {
               <RangeDatePicker onDateChange={onDateChange} startDate={startDate} endDate={endDate}/>
             </Col>
             <Col md="3">
-              <span>&nbsp;Search a Reseller ID &nbsp; </span>
+              <span>&nbsp;Search Brand &nbsp; </span>
               <AsyncMulti
                   hitApi={hitApi}
                   minSearchTextLength={MIN_SEARCH_LENGTH_FOR_RESELLER}
@@ -115,7 +116,7 @@ export const Brand = () => {
           </Row>
           <hr
               style={{
-                color:'rgba(0,0,0,0.02)',
+                color: 'rgba(0,0,0,0.02)',
                 backgroundColor: 'rgba(0,0,0,0.03)',
                 height: 1
               }}
@@ -149,10 +150,10 @@ export const Brand = () => {
             </Col>
             <Col md="6">
               <BarCard
-                  data={resellerData}
-                  title={'Transacting Users'}
+                  data={brandData}
+                  title={'Revenue by brand'}
                   subtitle={''}
-                  isLoading={Object.keys(resellerData).length === 0}
+                  isLoading={Object.keys(brandData).length === 0}
               />
             </Col>
           </Row>
