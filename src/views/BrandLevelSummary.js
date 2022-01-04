@@ -2,15 +2,15 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Row,} from "reactstrap";
 import {SummaryCard} from "../components/Summary/SummaryCard";
 import RangeDatePicker from "../components/common/RangeDatePicker";
-import {getLoyaltyTransactionData, getMatchStringForBrands, getMatchStringForReseller} from "../Utils/ApiUtils";
+import {getLoyaltyTransactionData, getMatchStringForBrands} from "../Utils/ApiUtils";
 
 import {
-  ENDPOINT_BRAND_DATA,
+  BRANDS_PAGE_END_POINTS,
   ENDPOINT_LOYALTY_TRANSACTIONS,
   ENDPOINT_ORDERS,
   ENDPOINT_REVENUE,
-  MIN_SEARCH_LENGTH_FOR_RESELLER,
-  USERS_PAGE_END_POINTS
+  ENDPOINT_SKU_DATA,
+  MIN_SEARCH_LENGTH_FOR_RESELLER
 } from "../constants";
 import {getDifferenceInDays} from "../Utils/DateUtils";
 import AsyncMulti from "../components/MutiSelect/AsyncMulti";
@@ -35,7 +35,7 @@ export const Brand = () => {
       case  ENDPOINT_LOYALTY_TRANSACTIONS:
         setPointsData(response);
         break;
-      case   ENDPOINT_BRAND_DATA:
+      case   ENDPOINT_SKU_DATA:
         setBrandData(response);
         break;
       case  ENDPOINT_ORDERS:
@@ -48,7 +48,7 @@ export const Brand = () => {
   }
 
   const getChartData = () => {
-    USERS_PAGE_END_POINTS.forEach(endPoint => {
+    BRANDS_PAGE_END_POINTS.forEach(endPoint => {
       getLoyaltyTransactionData(startDate, endDate, endPoint, null, selectedBrandIds).then(response => {
         setData(response, endPoint);
       })

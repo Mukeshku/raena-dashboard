@@ -43,8 +43,8 @@ export const getBrandDataForDisplay = (response) => {
     let categories = [];
     let brandCounts = [];
     responseData.forEach(item => {
-        const {brandId, count} = item || {}
-        categories.push(brandId);
+        const {brandId, count, skuId} = item || {}
+        categories.push(brandId || skuId);
         brandCounts.push(count);
     })
 

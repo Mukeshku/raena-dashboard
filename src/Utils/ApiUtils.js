@@ -6,7 +6,7 @@ import {
     ENDPOINT_LOYALTY_TRANSACTIONS,
     ENDPOINT_ORDERS,
     ENDPOINT_RESELLERS,
-    ENDPOINT_REVENUE
+    ENDPOINT_REVENUE, ENDPOINT_SKU_DATA
 } from "../constants";
 
 let header = Constants.DEFAULT_HEADER;
@@ -28,7 +28,7 @@ export const getLoyaltyTransactionData = async (startDate, endDate, endPoint, se
 const parseResponse = (response, endPoint) => {
     let retVal;
     const yAxisText = getYAxisText(endPoint);
-    if (endPoint === ENDPOINT_BRAND_DATA) {
+    if (endPoint === ENDPOINT_BRAND_DATA || endPoint === ENDPOINT_SKU_DATA) {
         let {categories, brandCounts} = getBrandDataForDisplay(response);
         retVal = {categories, brandCounts, yAxisText, success: 'true'}
     } else {

@@ -7,6 +7,7 @@ export const ENDPOINT_RESELLERS = 'resellers/resellers';
 export const ENDPOINT_ORDERS = 'resellers/orders';
 export const ENDPOINT_REVENUE = 'resellers/revenue';
 export const ENDPOINT_BRAND_DATA = 'resellers/brands';
+export const ENDPOINT_SKU_DATA = 'resellers/brands/skus';
 export const MIN_SEARCH_LENGTH_FOR_RESELLER = 3;
 
 export const SUMMARY_PAGE_END_POINTS = [
@@ -21,4 +22,11 @@ export const USERS_PAGE_END_POINTS = [
     ENDPOINT_ORDERS,
     ENDPOINT_REVENUE,
     ENDPOINT_BRAND_DATA
+]
+
+export const BRANDS_PAGE_END_POINTS = [
+    ENDPOINT_LOYALTY_TRANSACTIONS,
+    ENDPOINT_ORDERS,
+    ENDPOINT_REVENUE,
+    ENDPOINT_SKU_DATA
 ]
