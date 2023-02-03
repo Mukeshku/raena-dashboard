@@ -9,7 +9,7 @@
     "dotenv": "^10.0.0",
     "highcharts": "^9.3.2",
     "highcharts-react-official": "^3.1.0",
-    "jquery": "3.6.0",
+    "jquery": "3.6.3",
     "lodash": "^4.17.21",
     "node-sass": "6.0.0",
     "perfect-scrollbar": "1.5.1",
